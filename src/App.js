@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState, useRef } from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+const App = () => {
+    const [ constraints, setConstraints ] = useState({ audio: false, video: false });
+    const ref = useRef(null);
+
+    useEffect(() => {
+        navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+            ref.current.srcObject = stream;
+        });
+    }, []);
+
+    return (
+        <video
+            ref={ref}
+            autoPlay
+            playsInline
+            muted
+        />
+    )
 }
 
 export default App;
