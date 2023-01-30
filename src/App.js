@@ -1,24 +1,30 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
+
+
+const sampleDevices = [
+    { groupId: '1' },
+    { groupId: '2' }
+]
 
 
 const App = () => {
-    const [ constraints, setConstraints ] = useState({ audio: false, video: false });
-    const ref = useRef(null);
+    const [devices, setDevices] = useState(sampleDevices);
+    const [selectedDevice, setSelectedDevice] = useState(null);
 
-    useEffect(() => {
-        navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
-            ref.current.srcObject = stream;
-        });
-    }, []);
+    const handleChange = (event) => {
+        setSelectedDevice(event.target.value);
+    }
 
     return (
-        <video
-            ref={ref}
-            autoPlay
-            playsInline
-            muted
-        />
+        <>
+            <select value={selectedDevice} onChange={handleChange}>
+                {devices.map(device => <option key={device.groupId}>{device.groupId}</option>)}
+            </select>
+            <button onClick={() => alert('reflesh devices')}>getDevices</button>
+        </>
+        
     )
 }
+
 
 export default App;
